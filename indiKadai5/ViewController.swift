@@ -42,12 +42,12 @@ class ViewController: UIViewController {
 
     private func showErrorAlert(_ message: String) {
         let alert = UIAlertController(title: "課題5", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title:"OK", style: .default))
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
         self.present(alert, animated: true)
     }
 }
 
-fileprivate enum CalcError: Error {
+private enum CalcError: Error {
     case dividendTextIsEmpty
     case divisorTextIsEmpty
     case divisorIsZero
