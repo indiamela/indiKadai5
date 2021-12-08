@@ -15,35 +15,39 @@ class ViewController: UIViewController {
 
     @IBAction func onTapCalcButton(_ sender: Any) {
         do {
-            try calcAction()
+            let result = try calcAction(
+                devidendText: dividendTextField.text ?? "",
+                devisorText: divisorTextField.text ?? ""
+            )
+            resultLabel.text = String(result)
         } catch CalcError.dividendTextIsEmpty {
-            showErrorAlert("割られる数を入力してください")
+            showErrorAlert(message: "割られる数を入力してください")
         } catch CalcError.divisorTextIsEmpty {
-            showErrorAlert("割る数を入力してください")
+            showErrorAlert(message: "割る数を入力してください")
         } catch CalcError.divisorIsZero {
-            showErrorAlert("割る数には0を入力しないでください")
+            showErrorAlert(message: "割る数には0を入力しないでください")
         } catch {
-            showErrorAlert("予期しないエラーが起きました")
+            showErrorAlert(message: "予期しないエラーが起きました")
         }
     }
 
-    private func calcAction() throws {
-        guard let devidedInput = dividendTextField.text.flatMap({Double($0)}) else {
+    private func calcAction(devidendText: String, devisorText: String) throws -> Double {
+        guard let devidedInput = Double(devidendText) else {
             throw CalcError.dividendTextIsEmpty
         }
-        guard let divisorInput = divisorTextField.text.flatMap({Double($0)}) else {
+        guard let divisorInput = Double(devisorText) else {
             throw CalcError.divisorTextIsEmpty
         }
         guard divisorInput != 0 else {
             throw CalcError.divisorIsZero
         }
-        resultLabel.text = String(devidedInput/divisorInput)
+        return devidedInput/divisorInput
     }
 
-    private func showErrorAlert(_ message: String) {
+    private func showErrorAlert(message: String) {
         let alert = UIAlertController(title: "課題5", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default))
-        self.present(alert, animated: true)
+        present(alert, animated: true)
     }
 }
 
